@@ -1,4 +1,4 @@
-var data, tblView, updateTimeLine, url, user, win, xhr;
+var apikey, apikey_param, count, count_param, data, get_param, orignal_url, password, password_param, since, since_param, tblView, updateTimeLine, url, user, username, username_param, win, xhr;
 win = Ti.UI.createWindow();
 win.title = 'window';
 win.backgroundColor = 'black';
@@ -6,21 +6,41 @@ data = [];
 tblView = Ti.UI.createTableView();
 tblView.data = data;
 updateTimeLine = function(timeline) {
-  var currentdata, j, label, row, _i, _len;
+  var currentdata, elm, idx, key, label, row, _ref;
+  Ti.API.info("updateTimeLine func start");
+  Ti.API.info('timeline.list["177866339"].item_id =' + timeline.list["177866339"].item_id);
   currentdata = [];
-  for (_i = 0, _len = timeline.length; _i < _len; _i++) {
-    j = timeline[_i];
+  idx = 0;
+  _ref = timeline.list;
+  for (key in _ref) {
+    elm = _ref[key];
+    idx += 1;
     row = Ti.UI.createTableViewRow();
     label = Ti.UI.createLabel();
-    label.text = j.text;
+    Ti.API.info("elm.title=" + elm.title);
+    label.text = elm.title;
     row.add(label);
     currentdata.push(row);
   }
+  Ti.API.info("idx=" + idx);
   return tblView.setData(currentdata);
 };
 xhr = Ti.Network.createHTTPClient();
 user = 'fumi_hs';
-url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + user;
+orignal_url = "https://readitlaterlist.com/v2/";
+get_param = "get?";
+username_param = "username=";
+password_param = "&password=";
+apikey_param = "&apikey=";
+since_param = "&since=";
+count_param = "&count=";
+username = "hasifumi";
+password = "emudisha";
+apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f";
+since = "20120401";
+count = "20";
+url = orignal_url + get_param + username_param + username + password_param + password + apikey_param + apikey + since_param + since + count_param + count;
+Ti.API.info("url=" + url);
 xhr.open('GET', url);
 xhr.onload = function() {
   var timeline;

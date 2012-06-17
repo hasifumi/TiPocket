@@ -7,21 +7,38 @@ tblView = Ti.UI.createTableView()
 tblView.data = data
   
 updateTimeLine = (timeline)->
-  #Ti.API.info "updateTimeLine func start"
-  #Ti.API.info "timeline length ="+timeline.length
+  Ti.API.info "updateTimeLine func start"
+  Ti.API.info 'timeline.list["177866339"].item_id ='+timeline.list["177866339"].item_id
   currentdata = []
-  for j in timeline
+  idx = 0
+  for key,elm of timeline.list
+    idx += 1
+    #Ti.API.info "key:"+key+",elm.title="+elm.title
     row = Ti.UI.createTableViewRow()
     label = Ti.UI.createLabel()
-    #Ti.API.info "j.text = "+j.text
-    label.text = j.text
+    Ti.API.info "elm.title="+elm.title
+    label.text = elm.title
     row.add label
     currentdata.push row
+  Ti.API.info "idx="+idx
   tblView.setData currentdata
 
 xhr = Ti.Network.createHTTPClient()
 user = 'fumi_hs'
-url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name="+user
+orignal_url = "https://readitlaterlist.com/v2/"
+get_param = "get?"
+username_param = "username="
+password_param = "&password="
+apikey_param = "&apikey="
+since_param = "&since="
+count_param = "&count="
+username = "hasifumi"
+password = "emudisha"
+apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f"
+since = "20120401"
+count = "20"
+url = orignal_url+get_param+username_param+username+password_param+password+apikey_param+apikey+since_param+since+count_param+count
+Ti.API.info "url="+url
 xhr.open 'GET', url
 xhr.onload = ()->
   #Ti.API.info this.responseText
