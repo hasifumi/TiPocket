@@ -2,9 +2,39 @@ win = Ti.UI.createWindow()
 win.title = 'window'
 win.backgroundColor = 'black'
 
+#btnView = Ti.UI.createView()
+#btnView.height = 50
+#btnView.top = 0
+#btnView.backgroundColor = 'blue'
+#
+#btnShow = Ti.UI.createButton()
+#btnShow.title = 'show'
+#btnShow.width = 50
+#btnShow.height = 20
+#btnShow.left = 10
+#btnShow.addEventListener 'click',()->
+#  Ti.API.info "btnShow clicked"
+#  tblView.show()
+#btnView.add btnShow
+#
+#btnHide = Ti.UI.createButton()
+#btnHide.title = 'hide'
+#btnHide.width = 50
+#btnHide.height = 20
+#btnHide.left = 70
+#btnHide.addEventListener 'click',()->
+#  Ti.API.info "btnHide clicked"
+#  tblView.hide()
+#btnView.add btnHide
+
+BtnView = require('btnView').btnView
+btnView = new BtnView()
+win.add btnView
+
 data = []
 tblView = Ti.UI.createTableView()
 tblView.data = data
+tblView.top = 50
   
 updateTimeLine = (timeline)->
   Ti.API.info "updateTimeLine func start"

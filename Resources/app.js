@@ -1,10 +1,14 @@
-var apikey, apikey_param, count, count_param, data, get_param, orignal_url, password, password_param, since, since_param, tblView, updateTimeLine, url, user, username, username_param, win, xhr;
+var BtnView, apikey, apikey_param, btnView, count, count_param, data, get_param, orignal_url, password, password_param, since, since_param, tblView, updateTimeLine, url, user, username, username_param, win, xhr;
 win = Ti.UI.createWindow();
 win.title = 'window';
 win.backgroundColor = 'black';
+BtnView = require('btnView').btnView;
+btnView = new BtnView();
+win.add(btnView);
 data = [];
 tblView = Ti.UI.createTableView();
 tblView.data = data;
+tblView.top = 50;
 updateTimeLine = function(timeline) {
   var currentdata, elm, idx, key, label, row, _ref;
   Ti.API.info("updateTimeLine func start");
