@@ -1,4 +1,4 @@
-var BtnView, PocketDB, apikey, apikey_param, btnView, count, count_param, data, get_param, orignal_url, password, password_param, pocketDb, since, since_param, tblView, updateTimeLine, url, user, username, username_param, win, xhr;
+var BtnView, PocketDB, apikey, apikey_param, btnView, count, count_param, data, get_param, orignal_url, password, password_param, pocketDb, since, since_param, tblView, updateLists, url, user, username, username_param, win, xhr;
 win = Ti.UI.createWindow();
 win.title = 'window';
 win.backgroundColor = 'black';
@@ -11,21 +11,26 @@ tblView.data = data;
 tblView.top = 50;
 PocketDB = require('PocketDB').PocketDB;
 pocketDb = new PocketDB();
-updateTimeLine = function(timeline) {
-  var currentdata, elm, key, label, row, _ref;
+pocketDb.getRowCount();
+updateLists = function() {
+  var currentLists, currentdata, i, idx_i, label_title, row, _i, _len;
   currentdata = [];
-  _ref = timeline.list;
-  for (key in _ref) {
-    elm = _ref[key];
+  currentLists = pocketDb.getSavedLists();
+  Ti.API.info("currentLists.length:" + currentLists.length);
+  idx_i = 0;
+  for (_i = 0, _len = currentLists.length; _i < _len; _i++) {
+    i = currentLists[_i];
+    Ti.API.info(("" + idx_i + ".title:") + i.title);
+    Ti.API.info(("" + idx_i + ".time_updated:") + i.time_updated);
+    Ti.API.info(("" + idx_i + ".time_added:") + i.time_added);
+    idx_i += 1;
     row = Ti.UI.createTableViewRow();
-    label = Ti.UI.createLabel();
-    label.text = elm.title;
-    row.add(label);
+    label_title = Ti.UI.createLabel();
+    label_title.text = i.title;
+    row.add(label_title);
     currentdata.push(row);
   }
   tblView.setData(currentdata);
-  pocketDb.addLists(timeline.list);
-  return pocketDb.getSavedLists();
 };
 xhr = Ti.Network.createHTTPClient();
 user = 'fumi_hs';
@@ -40,13 +45,14 @@ username = "";
 password = "";
 apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f";
 since = "20120401";
-count = "20";
+count = "5";
 url = orignal_url + get_param + username_param + username + password_param + password + apikey_param + apikey + since_param + since + count_param + count;
 xhr.open('GET', url);
 xhr.onload = function() {
-  var timeline;
-  timeline = JSON.parse(this.responseText);
-  updateTimeLine(timeline);
+  var lists;
+  lists = JSON.parse(this.responseText);
+  pocketDb.addLists(lists.list);
+  updateLists();
 };
 xhr.send();
 win.add(tblView);
