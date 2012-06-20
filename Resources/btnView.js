@@ -1,5 +1,5 @@
 exports.btnView = function() {
-  var btnHide, btnShow, self;
+  var btnHide, btnShow, btnWeb, self;
   self = Ti.UI.createView();
   self.height = 50;
   self.top = 0;
@@ -24,5 +24,17 @@ exports.btnView = function() {
     return tblView.hide();
   });
   self.add(btnHide);
+  btnWeb = Ti.UI.createButton();
+  btnWeb.title = 'Web';
+  btnWeb.width = 50;
+  btnWeb.height = 20;
+  btnWeb.left = 130;
+  btnWeb.addEventListener('click', function() {
+    Ti.API.info("btnWeb clicked");
+    webView.zIndex = 30;
+    webView.updateHtml('<html><body>Test!</body></html>');
+    return webView.show();
+  });
+  self.add(btnWeb);
   return self;
 };

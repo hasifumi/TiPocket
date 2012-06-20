@@ -1,16 +1,25 @@
-var BtnView, PocketDB, apikey, apikey_param, btnView, count, count_param, data, get_param, orignal_url, password, password_param, pocketDb, since, since_param, tblView, updateLists, url, user, username, username_param, win, xhr;
+var BtnView, PocketDB, WebView, apikey, apikey_param, btnView, count, count_param, data, get_param, orignal_url, password, password_param, pocketDb, since, since_param, tblView, updateLists, url, user, username, username_param, webView, win, xhr;
 win = Ti.UI.createWindow();
 win.title = 'window';
 win.backgroundColor = 'black';
+WebView = require('webView').webView;
+webView = new WebView();
+webView.hide();
+webView.zIndex = 10;
+win.add(webView);
 BtnView = require('btnView').btnView;
 btnView = new BtnView();
+btnView.zIndex = 20;
 win.add(btnView);
 data = [];
 tblView = Ti.UI.createTableView();
 tblView.data = data;
 tblView.top = 50;
+tblView.zIndex = 20;
 PocketDB = require('PocketDB').PocketDB;
 pocketDb = new PocketDB();
+pocketDb.getRowCount();
+pocketDb.deleteLists();
 pocketDb.getRowCount();
 updateLists = function() {
   var currentLists, currentdata, i, idx_i, label_title, row, _i, _len;
@@ -45,7 +54,7 @@ username = "";
 password = "";
 apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f";
 since = "20120401";
-count = "5";
+count = "2";
 url = orignal_url + get_param + username_param + username + password_param + password + apikey_param + apikey + since_param + since + count_param + count;
 xhr.open('GET', url);
 xhr.onload = function() {

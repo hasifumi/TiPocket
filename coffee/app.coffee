@@ -2,20 +2,28 @@ win = Ti.UI.createWindow()
 win.title = 'window'
 win.backgroundColor = 'black'
 
+WebView = require('webView').webView
+webView = new WebView()
+webView.hide()
+webView.zIndex = 10
+win.add webView
+
 BtnView = require('btnView').btnView
 btnView = new BtnView()
+btnView.zIndex = 20
 win.add btnView
 
 data = []
 tblView = Ti.UI.createTableView()
 tblView.data = data
 tblView.top = 50
+tblView.zIndex = 20
   
 PocketDB = require('PocketDB').PocketDB
 pocketDb = new PocketDB()
 pocketDb.getRowCount()
-#pocketDb.deleteLists()
-#pocketDb.getRowCount()
+pocketDb.deleteLists()
+pocketDb.getRowCount()
 
 updateLists = ()->
   currentdata = []
@@ -24,6 +32,8 @@ updateLists = ()->
   idx_i = 0
   for i in currentLists
     Ti.API.info "#{idx_i}.title:"+i.title
+    #Ti.API.info "#{idx_i}.url:"+i.url
+    #pocketDb.getUrlSource i.url
     Ti.API.info "#{idx_i}.time_updated:"+i.time_updated
     Ti.API.info "#{idx_i}.time_added:"+i.time_added
     idx_i += 1
@@ -69,7 +79,7 @@ username = ""
 password = ""
 apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f"
 since = "20120401"
-count = "5"
+count = "2"
 url = orignal_url+get_param+username_param+username+password_param+password+apikey_param+apikey+since_param+since+count_param+count
 #Ti.API.info "url="+url
 xhr.open 'GET', url

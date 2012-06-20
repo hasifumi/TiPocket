@@ -8,6 +8,18 @@ exports.PocketDB = function(lists) {
   self.close = function() {
     self.db.close();
   };
+  self.getUrlSource = function(url) {
+    var xhr;
+    xhr = Ti.Network.createHTTPClient();
+    xhr.open('GET', url);
+    xhr.onerror = function() {
+      Ti.API.info("getUrlSource onerror, url:" + url);
+    };
+    xhr.onload = function() {
+      return this.responseText;
+    };
+    xhr.send();
+  };
   self.addLists = function(lists) {
     var elm, idx, key, res, rows;
     self.open();

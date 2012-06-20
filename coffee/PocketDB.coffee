@@ -11,6 +11,20 @@ exports.PocketDB = (lists)->
     self.db.close()
     return
 
+  self.getUrlSource = (url)->
+    xhr = Ti.Network.createHTTPClient()
+    xhr.open 'GET', url
+    xhr.onerror = ()->
+      Ti.API.info "getUrlSource onerror, url:"+url
+      return
+    xhr.onload = ()->
+      return this.responseText
+      #html = this.responseText
+      #Ti.API.info "getUrlSource html="+html
+      #return
+    xhr.send()
+    return
+
   self.addLists = (lists)->
     self.open()
     idx = 0
