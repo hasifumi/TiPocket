@@ -36,6 +36,28 @@ exports.btnView = ()->
     webView.show()
   self.add btnWeb
   
+  btnSet = Ti.UI.createButton()
+  btnSet.title = 'Set'
+  btnSet.width = 50
+  btnSet.height = 20
+  btnSet.left = 190
+  btnSet.addEventListener 'click',()->
+    Ti.API.info "btnSet clicked"
+    settingView.zIndex = 30
+    settingView.show()
+  self.add btnSet
+  
+  btnReload = Ti.UI.createButton()
+  btnReload.title = 'Reload'
+  btnReload.width = 70
+  btnReload.height = 20
+  btnReload.left = 250
+  btnReload.addEventListener 'click',()->
+    Ti.API.info "btnReload clicked"
+    tblView.setData = []
+    loadLits()
+  self.add btnReload
+
   return self
 
 

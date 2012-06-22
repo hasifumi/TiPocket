@@ -1,5 +1,5 @@
 exports.btnView = function() {
-  var btnHide, btnShow, btnWeb, self;
+  var btnHide, btnReload, btnSet, btnShow, btnWeb, self;
   self = Ti.UI.createView();
   self.height = 50;
   self.top = 0;
@@ -36,5 +36,27 @@ exports.btnView = function() {
     return webView.show();
   });
   self.add(btnWeb);
+  btnSet = Ti.UI.createButton();
+  btnSet.title = 'Set';
+  btnSet.width = 50;
+  btnSet.height = 20;
+  btnSet.left = 190;
+  btnSet.addEventListener('click', function() {
+    Ti.API.info("btnSet clicked");
+    settingView.zIndex = 30;
+    return settingView.show();
+  });
+  self.add(btnSet);
+  btnReload = Ti.UI.createButton();
+  btnReload.title = 'Reload';
+  btnReload.width = 70;
+  btnReload.height = 20;
+  btnReload.left = 250;
+  btnReload.addEventListener('click', function() {
+    Ti.API.info("btnReload clicked");
+    tblView.setData = [];
+    return loadLits();
+  });
+  self.add(btnReload);
   return self;
 };

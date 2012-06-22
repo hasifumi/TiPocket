@@ -8,6 +8,12 @@ webView.hide()
 webView.zIndex = 10
 win.add webView
 
+SettingView = require('settingView').settingView
+settingView = new SettingView()
+settingView.hide()
+settingView.zIndex = 10
+win.add settingView
+
 BtnView = require('btnView').btnView
 btnView = new BtnView()
 btnView.zIndex = 20
@@ -26,6 +32,7 @@ pocketDb.deleteLists()
 pocketDb.getRowCount()
 
 updateLists = ()->
+  tblView.setData []
   currentdata = []
   currentLists = pocketDb.getSavedLists()
   Ti.API.info "currentLists.length:"+currentLists.length
@@ -66,32 +73,36 @@ updateLists = ()->
   #  pocketDb.addLists timeline.list
   #  pocketDb.getSavedLists()
 
-xhr = Ti.Network.createHTTPClient()
-user = 'fumi_hs'
-orignal_url = "https://readitlaterlist.com/v2/"
-get_param = "get?"
-username_param = "username="
-password_param = "&password="
-apikey_param = "&apikey="
-since_param = "&since="
-count_param = "&count="
-username = ""
-password = ""
-apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f"
-since = "20120401"
-count = "2"
-url = orignal_url+get_param+username_param+username+password_param+password+apikey_param+apikey+since_param+since+count_param+count
-#Ti.API.info "url="+url
-xhr.open 'GET', url
-xhr.onload = ()->
-  #Ti.API.info this.responseText
-  #timeline = JSON.parse this.responseText
-  #updateTimeLine timeline
-  lists = JSON.parse this.responseText
-  pocketDb.addLists lists.list
-  updateLists()
-  return
-xhr.send()
+loadLits = ()->
+  xhr = Ti.Network.createHTTPClient()
+  orignal_url = "https://readitlaterlist.com/v2/"
+  get_param = "get?"
+  username_param = "username="
+  password_param = "&password="
+  apikey_param = "&apikey="
+  since_param = "&since="
+  count_param = "&count="
+  username = Ti.App.Properties.getString 'username'
+  password = Ti.App.Properties.getString 'password'
+  Ti.API.info "getString username:"+username
+  Ti.API.info "getString password:"+password
+  apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f"
+  since = "20120401"
+  count = "2"
+  url = orignal_url+get_param+username_param+username+password_param+password+apikey_param+apikey+since_param+since+count_param+count
+  #Ti.API.info "url="+url
+  xhr.open 'GET', url
+  xhr.onload = ()->
+    #Ti.API.info this.responseText
+    #timeline = JSON.parse this.responseText
+    #updateTimeLine timeline
+    lists = JSON.parse this.responseText
+    pocketDb.addLists lists.list
+    updateLists()
+    return
+  xhr.send()
+
+loadLits()
 
 win.add tblView
 
