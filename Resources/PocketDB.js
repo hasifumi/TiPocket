@@ -8,18 +8,6 @@ exports.PocketDB = function(lists) {
   self.close = function() {
     self.db.close();
   };
-  self.getUrlSource = function(url) {
-    var xhr;
-    xhr = Ti.Network.createHTTPClient();
-    xhr.open('GET', url);
-    xhr.onerror = function() {
-      Ti.API.info("getUrlSource onerror, url:" + url);
-    };
-    xhr.onload = function() {
-      return this.responseText;
-    };
-    xhr.send();
-  };
   self.addLists = function(lists) {
     var elm, idx, key, res, rows;
     self.open();
@@ -42,15 +30,15 @@ exports.PocketDB = function(lists) {
   };
   self.selectList = function(item_id) {
     self.open();
-    Ti.API.info("selected :" + self.db.execute('SELECT (title) FROM lists where item_id = ?', item_id));
+    Ti.API.debug("selected :" + self.db.execute('SELECT (title) FROM lists where item_id = ?', item_id));
     self.close();
   };
   self.getSavedLists = function() {
     var res, res1, rows;
-    Ti.API.info("getSavedLists start");
+    Ti.API.debug("getSavedLists start");
     self.open();
     rows = self.db.execute('SELECT * FROM lists order by time_updated desc');
-    Ti.API.info("count:" + rows.getRowCount());
+    Ti.API.debug("count:" + rows.getRowCount());
     res = [];
     if (rows.getRowCount() > 0) {
       while (rows.isValidRow()) {
@@ -66,7 +54,7 @@ exports.PocketDB = function(lists) {
       }
     }
     rows.close();
-    Ti.API.info("res.length:" + res.length);
+    Ti.API.debug("res.length:" + res.length);
     self.close();
     return res;
   };
@@ -74,10 +62,77 @@ exports.PocketDB = function(lists) {
     self.open();
     self.db.execute('DELETE FROM lists');
     self.close();
-    Ti.API.info("delete from lists");
+    Ti.API.debug("delete from lists");
   };
-  self.open();
-  self.db.execute('CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT)');
-  self.close();
+  self.getUrlSource = function(item_id, url) {
+    var xhr;
+    Ti.API.debug("self.getUrlSource start item_id:" + item_id + ", url:" + url);
+    xhr = Ti.Network.createHTTPClient();
+    xhr.open('GET', url);
+    xhr.onerror = function() {
+      Ti.API.debug("getUrlSource onerror, url:" + url);
+    };
+    xhr.onload = function() {
+      var html, res, rows1;
+      html = this.responseText;
+      Ti.API.debug("self.getUrlSource html=" + html);
+      self.open();
+      rows1 = self.db.execute('SELECT * FROM htmls where item_id = ?', item_id);
+      Ti.API.debug("self.getUrlSource select from htmls Count:" + rows1.getRowCount());
+      if (rows1.getRowCount() === 0) {
+        res = self.db.execute('INSERT INTO htmls (item_id, html) VALUES (?, ?)', item_id, html);
+        Ti.API.debug("getUrlSource insert html, item_id:" + item_id);
+      }
+      rows1.close();
+      self.close();
+    };
+    xhr.send();
+  };
+  self.addHtmls = function() {
+    var item_id, rows, url;
+    self.open();
+    rows = self.db.execute('SELECT * FROM lists');
+    Ti.API.debug("self.addHtmls select form lists Count:" + rows.getRowCount());
+    if (rows.getRowCount() > 0) {
+      while (rows.isValidRow()) {
+        item_id = rows.fieldByName('item_id');
+        url = rows.fieldByName('url');
+        self.getUrlSource(item_id, url);
+        rows.next();
+      }
+    }
+    rows.close();
+    return self.close();
+  };
+  self.getSavedHtml = function(item_id) {
+    var res, rows;
+    if (item_id === null) {
+      return;
+    }
+    Ti.API.debug("getSavedHtmls start");
+    self.open();
+    rows = self.db.execute('SELECT * FROM htmls where item_id = ?', item_id);
+    Ti.API.debug("getSaveHtmls select item_id=" + item_id + ", count=" + rows.getRowCount());
+    if (rows.getRowCount() === 1) {
+      while (rows.isValidRow()) {
+        res = rows.fieldByName('html');
+        rows.next();
+      }
+    }
+    rows.close();
+    self.close();
+    return res;
+  };
+  self.initialize = function() {
+    self.open();
+    self.db.execute('DROP TABLE IF EXISTS lists');
+    Ti.API.debug("drop table lists");
+    self.db.execute('DROP TABLE IF EXISTS htmls');
+    Ti.API.debug("drop table htmls");
+    self.db.execute('CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT)');
+    self.db.execute('CREATE TABLE IF NOT EXISTS htmls (item_id TEXT, html BLOB)');
+    return self.close();
+  };
+  self.initialize();
   return self;
 };

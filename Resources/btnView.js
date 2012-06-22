@@ -10,7 +10,7 @@ exports.btnView = function() {
   btnShow.height = 20;
   btnShow.left = 10;
   btnShow.addEventListener('click', function() {
-    Ti.API.info("btnShow clicked");
+    Ti.API.debug("btnShow clicked");
     return tblView.show();
   });
   self.add(btnShow);
@@ -20,7 +20,7 @@ exports.btnView = function() {
   btnHide.height = 20;
   btnHide.left = 70;
   btnHide.addEventListener('click', function() {
-    Ti.API.info("btnHide clicked");
+    Ti.API.debug("btnHide clicked");
     return tblView.hide();
   });
   self.add(btnHide);
@@ -30,7 +30,7 @@ exports.btnView = function() {
   btnWeb.height = 20;
   btnWeb.left = 130;
   btnWeb.addEventListener('click', function() {
-    Ti.API.info("btnWeb clicked");
+    Ti.API.debug("btnWeb clicked");
     webView.zIndex = 30;
     webView.updateHtml('<html><body>Test!</body></html>');
     return webView.show();
@@ -42,7 +42,7 @@ exports.btnView = function() {
   btnSet.height = 20;
   btnSet.left = 190;
   btnSet.addEventListener('click', function() {
-    Ti.API.info("btnSet clicked");
+    Ti.API.debug("btnSet clicked");
     settingView.zIndex = 30;
     return settingView.show();
   });
@@ -53,7 +53,7 @@ exports.btnView = function() {
   btnReload.height = 20;
   btnReload.left = 250;
   btnReload.addEventListener('click', function() {
-    Ti.API.info("btnReload clicked");
+    Ti.API.debug("btnReload clicked");
     tblView.setData = [];
     return loadLits();
   });

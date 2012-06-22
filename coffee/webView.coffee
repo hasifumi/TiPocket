@@ -6,6 +6,8 @@ exports.webView = ()->
   btnArea.backgroundColor = 'red'
   btnArea.top = 0
 
+  self.add btnArea
+
   closeBtn = Ti.UI.createButton()
   closeBtn.title = "close"
   closeBtn.top = 10
@@ -19,11 +21,9 @@ exports.webView = ()->
 
   btnArea.add closeBtn
   
-  self.add btnArea
-
   webView1 = Ti.UI.createWebView()
   webView1.top = 50
-  webView1.backgroundColor = 'pink'
+  webView1.backgroundColor = 'white'
 
   self.add webView1
 

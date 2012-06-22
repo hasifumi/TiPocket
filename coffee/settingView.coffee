@@ -61,7 +61,7 @@ exports.settingView = ()->
   tfUser.returnKeyType = Ti.UI.RETURNKEY_DEFAULT
   tfUser.borderStyle = Ti.UI.INPUT_BORDERSTYLE_ROUNDED
   tfUser.addEventListener 'return', (e)->
-    Ti.API.info "tfUser received, val="+e.value
+    Ti.API.debug "tfUser received, val="+e.value
     Ti.App.Properties.setString 'username', e.value
     tfUser.blur()
 
@@ -79,7 +79,7 @@ exports.settingView = ()->
   tfPasswd.returnKeyType = Ti.UI.RETURNKEY_DEFAULT
   tfPasswd.borderStyle = Ti.UI.INPUT_BORDERSTYLE_ROUNDED
   tfPasswd.addEventListener 'return', (e)->
-    Ti.API.info "tfPasswd received, val="+e.value
+    Ti.API.debug "tfPasswd received, val="+e.value
     Ti.App.Properties.setString 'password', e.value
     tfPasswd.blur()
 

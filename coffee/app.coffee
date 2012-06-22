@@ -19,11 +19,17 @@ btnView = new BtnView()
 btnView.zIndex = 20
 win.add btnView
 
-data = []
 tblView = Ti.UI.createTableView()
+data = []
 tblView.data = data
 tblView.top = 50
 tblView.zIndex = 20
+tblView.addEventListener 'click',(e)->
+  Ti.API.debug "e.row.item_id="+e.row.item_id
+  res = pocketDb.getSavedHtml e.row.item_id
+  webView.updateHtml res
+  webView.zIndex = 30
+  webView.show()
   
 PocketDB = require('PocketDB').PocketDB
 pocketDb = new PocketDB()
@@ -35,24 +41,30 @@ updateLists = ()->
   tblView.setData []
   currentdata = []
   currentLists = pocketDb.getSavedLists()
-  Ti.API.info "currentLists.length:"+currentLists.length
+  Ti.API.debug "currentLists.length:"+currentLists.length
   idx_i = 0
   for i in currentLists
-    Ti.API.info "#{idx_i}.title:"+i.title
-    #Ti.API.info "#{idx_i}.url:"+i.url
+    Ti.API.debug "#{idx_i}.item_id:"+i.item_id
+    Ti.API.debug "#{idx_i}.title:"+i.title
+    #Ti.API.debug "#{idx_i}.url:"+i.url
     #pocketDb.getUrlSource i.url
-    Ti.API.info "#{idx_i}.time_updated:"+i.time_updated
-    Ti.API.info "#{idx_i}.time_added:"+i.time_added
+    Ti.API.debug "#{idx_i}.time_updated:"+i.time_updated
+    Ti.API.debug "#{idx_i}.time_added:"+i.time_added
     idx_i += 1
     row = Ti.UI.createTableViewRow()
     label_title = Ti.UI.createLabel()
     label_title.text = i.title
     row.add label_title
+    row.item_id = i.item_id
+    #row.addEventListener 'click',(e)->
+    #  webView.updateHtml e.rowData.html
+    #  webView.zIndex = 30
+    #  webView.show()
     currentdata.push row
   tblView.setData currentdata
   return
   #for key,elm of timeline.list
-  #  #Ti.API.info "key:"+key+",elm.title="+elm.title
+  #  #Ti.API.debug "key:"+key+",elm.title="+elm.title
   #  row = Ti.UI.createTableViewRow()
   #  label = Ti.UI.createLabel()
   #  label.text = elm.title
@@ -63,7 +75,7 @@ updateLists = ()->
   #updateTimeLine = (timeline)->
   #  currentdata = []
   #  for key,elm of timeline.list
-  #    #Ti.API.info "key:"+key+",elm.title="+elm.title
+  #    #Ti.API.debug "key:"+key+",elm.title="+elm.title
   #    row = Ti.UI.createTableViewRow()
   #    label = Ti.UI.createLabel()
   #    label.text = elm.title
@@ -84,20 +96,21 @@ loadLits = ()->
   count_param = "&count="
   username = Ti.App.Properties.getString 'username'
   password = Ti.App.Properties.getString 'password'
-  Ti.API.info "getString username:"+username
-  Ti.API.info "getString password:"+password
+  Ti.API.debug "getString username:"+username
+  Ti.API.debug "getString password:"+password
   apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f"
   since = "20120401"
   count = "2"
   url = orignal_url+get_param+username_param+username+password_param+password+apikey_param+apikey+since_param+since+count_param+count
-  #Ti.API.info "url="+url
+  #Ti.API.debug "url="+url
   xhr.open 'GET', url
   xhr.onload = ()->
-    #Ti.API.info this.responseText
+    #Ti.API.debug this.responseText
     #timeline = JSON.parse this.responseText
     #updateTimeLine timeline
     lists = JSON.parse this.responseText
     pocketDb.addLists lists.list
+    pocketDb.addHtmls()
     updateLists()
     return
   xhr.send()

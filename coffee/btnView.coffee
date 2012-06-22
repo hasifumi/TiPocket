@@ -10,7 +10,7 @@ exports.btnView = ()->
   btnShow.height = 20
   btnShow.left = 10
   btnShow.addEventListener 'click',()->
-    Ti.API.info "btnShow clicked"
+    Ti.API.debug "btnShow clicked"
     tblView.show()
   self.add btnShow
   
@@ -20,7 +20,7 @@ exports.btnView = ()->
   btnHide.height = 20
   btnHide.left = 70
   btnHide.addEventListener 'click',()->
-    Ti.API.info "btnHide clicked"
+    Ti.API.debug "btnHide clicked"
     tblView.hide()
   self.add btnHide
   
@@ -30,7 +30,7 @@ exports.btnView = ()->
   btnWeb.height = 20
   btnWeb.left = 130
   btnWeb.addEventListener 'click',()->
-    Ti.API.info "btnWeb clicked"
+    Ti.API.debug "btnWeb clicked"
     webView.zIndex = 30
     webView.updateHtml '<html><body>Test!</body></html>'
     webView.show()
@@ -42,7 +42,7 @@ exports.btnView = ()->
   btnSet.height = 20
   btnSet.left = 190
   btnSet.addEventListener 'click',()->
-    Ti.API.info "btnSet clicked"
+    Ti.API.debug "btnSet clicked"
     settingView.zIndex = 30
     settingView.show()
   self.add btnSet
@@ -53,7 +53,7 @@ exports.btnView = ()->
   btnReload.height = 20
   btnReload.left = 250
   btnReload.addEventListener 'click',()->
-    Ti.API.info "btnReload clicked"
+    Ti.API.debug "btnReload clicked"
     tblView.setData = []
     loadLits()
   self.add btnReload
