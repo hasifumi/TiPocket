@@ -5,7 +5,6 @@ exports.settingView = ()->
   btnArea.height = 50
   btnArea.backgroundColor = 'green'
   btnArea.top = 0
-
   self.add btnArea
 
   closeBtn = Ti.UI.createButton()
@@ -18,13 +17,11 @@ exports.settingView = ()->
     self.zIndex = 10
     self.hide()
     return
-
   btnArea.add closeBtn
   
   settingView1 = Ti.UI.createView()
   settingView1.top = 50
   settingView1.backgroundColor = 'gray'
-
   self.add settingView1
 
   lblUser = Ti.UI.createLabel()
@@ -35,7 +32,6 @@ exports.settingView = ()->
   lblUser.width = 100
   lblUser.backgroundColor = 'black'
   lblUser.color = 'white'
-
   settingView1.add lblUser
 
   lblPasswd = Ti.UI.createLabel()
@@ -46,7 +42,6 @@ exports.settingView = ()->
   lblPasswd.width = 100
   lblPasswd.backgroundColor = 'black'
   lblPasswd.color = 'white'
-
   settingView1.add lblPasswd
 
   tfUser = Ti.UI.createTextField()
@@ -64,7 +59,6 @@ exports.settingView = ()->
     Ti.API.debug "tfUser received, val="+e.value
     Ti.App.Properties.setString 'username', e.value
     tfUser.blur()
-
   settingView1.add tfUser
 
   tfPasswd = Ti.UI.createTextField()
@@ -82,8 +76,41 @@ exports.settingView = ()->
     Ti.API.debug "tfPasswd received, val="+e.value
     Ti.App.Properties.setString 'password', e.value
     tfPasswd.blur()
-
   settingView1.add tfPasswd
+
+  lblAgent = Ti.UI.createLabel()
+  lblAgent.text = 'User-Agent:'
+  lblAgent.top = 120
+  lblAgent.height = 20
+  lblAgent.left = 20
+  lblAgent.width = 100
+  lblAgent.backgroundColor = 'black'
+  lblAgent.color = 'white'
+  lblAgent.addEventListener 'click', ()->
+    pkrAgent.show()
+  settingView1.add lblAgent
+
+  #pkrAgent = Ti.UI.createPicker()
+  ##pkrAgent.top = 120
+  ##pkrAgent.height = 20
+  ##pkrAgent.left = 140
+  ##pkrAgent.width = 150
+  #data = []
+  #items = [
+  #  {title:'normal', custom_item:'normal'}
+  #  {title:'iOS', custom_item:'ios'}
+  #  {title:'Android', custom_item:'android'}
+  #]
+  #for i in items
+  #  data.push Ti.UI.createPickerRow(i)
+  #  return
+  #pkrAgent.add data
+  #pkrAgent.selectionIndicator = true
+  #pkrAgent.addEventListener 'change', (e)->
+  #  Ti.API.debug "row:"+e.row+", column:"+e.column+", row.custom_item:"+e.row.custom_item
+  #pkrAgent.hide()
+  ##settingView1.add pkrAgent
+  #win.add pkrAgent
 
   return self
 

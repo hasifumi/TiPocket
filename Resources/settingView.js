@@ -1,5 +1,5 @@
 exports.settingView = function() {
-  var btnArea, closeBtn, lblPasswd, lblUser, self, settingView1, tfPasswd, tfUser;
+  var btnArea, closeBtn, lblAgent, lblPasswd, lblUser, self, settingView1, tfPasswd, tfUser;
   self = Ti.UI.createView();
   btnArea = Ti.UI.createView();
   btnArea.height = 50;
@@ -73,5 +73,17 @@ exports.settingView = function() {
     return tfPasswd.blur();
   });
   settingView1.add(tfPasswd);
+  lblAgent = Ti.UI.createLabel();
+  lblAgent.text = 'User-Agent:';
+  lblAgent.top = 120;
+  lblAgent.height = 20;
+  lblAgent.left = 20;
+  lblAgent.width = 100;
+  lblAgent.backgroundColor = 'black';
+  lblAgent.color = 'white';
+  lblAgent.addEventListener('click', function() {
+    return pkrAgent.show();
+  });
+  settingView1.add(lblAgent);
   return self;
 };

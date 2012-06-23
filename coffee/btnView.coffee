@@ -4,31 +4,11 @@ exports.btnView = ()->
   self.top = 0
   self.backgroundColor = 'blue'
   
-  btnShow = Ti.UI.createButton()
-  btnShow.title = 'show'
-  btnShow.width = 50
-  btnShow.height = 20
-  btnShow.left = 10
-  btnShow.addEventListener 'click',()->
-    Ti.API.debug "btnShow clicked"
-    tblView.show()
-  self.add btnShow
-  
-  btnHide = Ti.UI.createButton()
-  btnHide.title = 'hide'
-  btnHide.width = 50
-  btnHide.height = 20
-  btnHide.left = 70
-  btnHide.addEventListener 'click',()->
-    Ti.API.debug "btnHide clicked"
-    tblView.hide()
-  self.add btnHide
-  
   btnWeb = Ti.UI.createButton()
   btnWeb.title = 'Web'
   btnWeb.width = 50
   btnWeb.height = 20
-  btnWeb.left = 130
+  btnWeb.left = 10
   btnWeb.addEventListener 'click',()->
     Ti.API.debug "btnWeb clicked"
     webView.zIndex = 30
@@ -40,7 +20,7 @@ exports.btnView = ()->
   btnSet.title = 'Set'
   btnSet.width = 50
   btnSet.height = 20
-  btnSet.left = 190
+  btnSet.left = 70
   btnSet.addEventListener 'click',()->
     Ti.API.debug "btnSet clicked"
     settingView.zIndex = 30
@@ -51,7 +31,7 @@ exports.btnView = ()->
   btnReload.title = 'Reload'
   btnReload.width = 70
   btnReload.height = 20
-  btnReload.left = 250
+  btnReload.left = 130
   btnReload.addEventListener 'click',()->
     Ti.API.debug "btnReload clicked"
     tblView.setData = []

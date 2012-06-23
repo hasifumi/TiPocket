@@ -48,12 +48,6 @@ exports.PocketDB = (lists)->
     res = []
     if rows.getRowCount() > 0 
       while rows.isValidRow()
-        #Ti.API.debug "rows.fieldByName('item_id'):"+rows.fieldByName('item_id')
-        #Ti.API.debug "rows.fieldByName('title'):"+rows.fieldByName('title')
-        #Ti.API.debug "rows.fieldByName('url'):"+rows.fieldByName('url')
-        #Ti.API.debug "rows.fieldByName('time_updated'):"+rows.fieldByName('time_updated')
-        #Ti.API.debug "rows.fieldByName('time_added'):"+rows.fieldByName('time_added')
-        #Ti.API.debug "rows.fieldByName('state'):"+rows.fieldByName('state')
         res1 = {}
         res1.item_id      = rows.fieldByName('item_id')
         res1.title        = rows.fieldByName('title')
@@ -78,13 +72,15 @@ exports.PocketDB = (lists)->
   self.getUrlSource = (item_id, url)->
     Ti.API.debug "self.getUrlSource start item_id:"+item_id+", url:"+url
     xhr = Ti.Network.createHTTPClient()
-    xhr.open 'GET', url
+    #xhr.open 'GET', url
+    url_instapaper = "http://www.instapaper.com/m?u="+url
+    xhr.open 'GET', url_instapaper
     xhr.onerror = ()->
       Ti.API.debug "getUrlSource onerror, url:"+url
       return
     xhr.onload = ()->
       html = this.responseText
-      Ti.API.debug "self.getUrlSource html="+html
+      #Ti.API.debug "self.getUrlSource html="+html
       self.open()
       rows1 = self.db.execute('SELECT * FROM htmls where item_id = ?', item_id)
       Ti.API.debug "self.getUrlSource select from htmls Count:"+rows1.getRowCount()

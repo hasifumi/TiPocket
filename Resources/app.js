@@ -25,6 +25,7 @@ tblView.addEventListener('click', function(e) {
   var res;
   Ti.API.debug("e.row.item_id=" + e.row.item_id);
   res = pocketDb.getSavedHtml(e.row.item_id);
+  webView.html = "";
   webView.updateHtml(res);
   webView.zIndex = 30;
   return webView.show();
@@ -73,8 +74,9 @@ loadLits = function() {
   Ti.API.debug("getString password:" + password);
   apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f";
   since = "20120401";
-  count = "2";
+  count = "50";
   url = orignal_url + get_param + username_param + username + password_param + password + apikey_param + apikey + since_param + since + count_param + count;
+  xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Linux; U; Android 1.5; ja-jp; HT-03A Build/CDB72) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1');
   xhr.open('GET', url);
   xhr.onload = function() {
     var lists;
