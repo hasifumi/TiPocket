@@ -1,10 +1,10 @@
 exports.btnView = ()->
-  self = Ti.UI.createView()
+  self = Ti.UI.createView()# {{{
   self.height = 50
   self.top = 0
-  self.backgroundColor = 'blue'
+  self.backgroundColor = 'blue'# }}}
   
-  btnWeb = Ti.UI.createButton()
+  btnWeb = Ti.UI.createButton()# {{{
   btnWeb.title = 'Web'
   btnWeb.width = 50
   btnWeb.height = 20
@@ -14,9 +14,9 @@ exports.btnView = ()->
     webView.zIndex = 30
     webView.updateHtml '<html><body>Test!</body></html>'
     webView.show()
-  self.add btnWeb
+  self.add btnWeb# }}}
   
-  btnSet = Ti.UI.createButton()
+  btnSet = Ti.UI.createButton()# {{{
   btnSet.title = 'Set'
   btnSet.width = 50
   btnSet.height = 20
@@ -25,9 +25,9 @@ exports.btnView = ()->
     Ti.API.debug "btnSet clicked"
     settingView.zIndex = 30
     settingView.show()
-  self.add btnSet
+  self.add btnSet# }}}
   
-  btnReload = Ti.UI.createButton()
+  btnReload = Ti.UI.createButton()# {{{
   btnReload.title = 'Reload'
   btnReload.width = 70
   btnReload.height = 20
@@ -35,8 +35,8 @@ exports.btnView = ()->
   btnReload.addEventListener 'click',()->
     Ti.API.debug "btnReload clicked"
     tblView.setData = []
-    loadLits()
-  self.add btnReload
+    loadLists()
+  self.add btnReload# }}}
 
   return self
 

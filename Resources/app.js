@@ -1,7 +1,8 @@
-var BtnView, PocketDB, SettingView, WebView, btnView, data, loadLits, pocketDb, settingView, tblView, updateLists, webView, win;
+var BtnView, PocketDB, SettingView, WebView, btnView, data, loadLists, pocketDb, settingView, tblView, updateLists, webView, win;
 win = Ti.UI.createWindow();
 win.title = 'window';
 win.backgroundColor = 'black';
+win.orientationModes = [Titanium.UI.PORTRAIT, Titanium.UI.UPSIDE_PORTRAIT, Titanium.UI.LANDSCAPE_LEFT, Titanium.UI.LANDSCAPE_RIGHT, Titanium.UI.FACE_UP, Titanium.UI.FACE_DOWN, Titanium.UI.UNKNOWN];
 WebView = require('webView').webView;
 webView = new WebView();
 webView.hide();
@@ -50,6 +51,10 @@ updateLists = function() {
     Ti.API.debug(("" + idx_i + ".time_added:") + i.time_added);
     idx_i += 1;
     row = Ti.UI.createTableViewRow();
+    row.editable = true;
+    row.addEventListener('click', function(e) {
+      return Ti.API.debug("row clicked");
+    });
     label_title = Ti.UI.createLabel();
     label_title.text = i.title;
     row.add(label_title);
@@ -58,7 +63,7 @@ updateLists = function() {
   }
   tblView.setData(currentdata);
 };
-loadLits = function() {
+loadLists = function() {
   var apikey, apikey_param, count, count_param, get_param, orignal_url, password, password_param, since, since_param, url, username, username_param, xhr;
   xhr = Ti.Network.createHTTPClient();
   orignal_url = "https://readitlaterlist.com/v2/";
@@ -87,6 +92,6 @@ loadLits = function() {
   };
   return xhr.send();
 };
-loadLits();
+updateLists();
 win.add(tblView);
 win.open();

@@ -1,13 +1,13 @@
 exports.webView = ()->
   self = Ti.UI.createView()
 
-  btnArea = Ti.UI.createView()
+  btnArea = Ti.UI.createView()# {{{
   btnArea.height = 50
   btnArea.backgroundColor = 'red'
   btnArea.top = 0
-  self.add btnArea
+  self.add btnArea# }}}
 
-  closeBtn = Ti.UI.createButton()
+  closeBtn = Ti.UI.createButton()# {{{
   closeBtn.title = "close"
   closeBtn.top = 10
   closeBtn.height = 20
@@ -17,9 +17,9 @@ exports.webView = ()->
     self.zIndex = 10
     self.hide()
     return
-  btnArea.add closeBtn
+  btnArea.add closeBtn# }}}
   
-  backBtn = Ti.UI.createButton()
+  backBtn = Ti.UI.createButton()# {{{
   backBtn.title = "back"
   backBtn.top = 10
   backBtn.height = 20
@@ -30,9 +30,9 @@ exports.webView = ()->
       Ti.API.debug "webView1.goBack"
       webView1.goBack()
     return
-  btnArea.add backBtn
+  btnArea.add backBtn# }}}
   
-  forwardBtn = Ti.UI.createButton()
+  forwardBtn = Ti.UI.createButton()# {{{
   forwardBtn.title = "forward"
   forwardBtn.top = 10
   forwardBtn.height = 20
@@ -43,16 +43,16 @@ exports.webView = ()->
       Ti.API.debug "webView1.goForward"
       webView1.goForward()
     return
-  btnArea.add forwardBtn
+  btnArea.add forwardBtn# }}}
   
-  webView1 = Ti.UI.createWebView()
+  webView1 = Ti.UI.createWebView()# {{{
   webView1.top = 50
   webView1.backgroundColor = 'white'
-  self.add webView1
+  self.add webView1# }}}
 
-  self.updateHtml = (html_src)->
+  self.updateHtml = (html_src)-># {{{
     webView1.html = html_src
-    return
+    return# }}}
   
   return self
 

@@ -1,13 +1,13 @@
 exports.settingView = ()->
   self = Ti.UI.createView()
 
-  btnArea = Ti.UI.createView()
+  btnArea = Ti.UI.createView()# {{{
   btnArea.height = 50
   btnArea.backgroundColor = 'green'
   btnArea.top = 0
-  self.add btnArea
+  self.add btnArea# }}}
 
-  closeBtn = Ti.UI.createButton()
+  closeBtn = Ti.UI.createButton()# {{{
   closeBtn.title = "close"
   closeBtn.top = 10
   closeBtn.height = 20
@@ -17,14 +17,14 @@ exports.settingView = ()->
     self.zIndex = 10
     self.hide()
     return
-  btnArea.add closeBtn
+  btnArea.add closeBtn# }}}
   
-  settingView1 = Ti.UI.createView()
+  settingView1 = Ti.UI.createView()# {{{
   settingView1.top = 50
   settingView1.backgroundColor = 'gray'
-  self.add settingView1
+  self.add settingView1# }}}
 
-  lblUser = Ti.UI.createLabel()
+  lblUser = Ti.UI.createLabel()# {{{
   lblUser.text = 'Username:'
   lblUser.top = 20
   lblUser.height = 20
@@ -32,9 +32,9 @@ exports.settingView = ()->
   lblUser.width = 100
   lblUser.backgroundColor = 'black'
   lblUser.color = 'white'
-  settingView1.add lblUser
+  settingView1.add lblUser# }}}
 
-  lblPasswd = Ti.UI.createLabel()
+  lblPasswd = Ti.UI.createLabel()# {{{
   lblPasswd.text = 'Password:'
   lblPasswd.top = 70
   lblPasswd.height = 20
@@ -42,9 +42,9 @@ exports.settingView = ()->
   lblPasswd.width = 100
   lblPasswd.backgroundColor = 'black'
   lblPasswd.color = 'white'
-  settingView1.add lblPasswd
+  settingView1.add lblPasswd# }}}
 
-  tfUser = Ti.UI.createTextField()
+  tfUser = Ti.UI.createTextField()# {{{
   tfUser.top = 20
   tfUser.height = 20
   tfUser.left = 140
@@ -59,9 +59,9 @@ exports.settingView = ()->
     Ti.API.debug "tfUser received, val="+e.value
     Ti.App.Properties.setString 'username', e.value
     tfUser.blur()
-  settingView1.add tfUser
+  settingView1.add tfUser# }}}
 
-  tfPasswd = Ti.UI.createTextField()
+  tfPasswd = Ti.UI.createTextField()# {{{
   tfPasswd.top = 70
   tfPasswd.height = 20
   tfPasswd.left = 140
@@ -76,9 +76,9 @@ exports.settingView = ()->
     Ti.API.debug "tfPasswd received, val="+e.value
     Ti.App.Properties.setString 'password', e.value
     tfPasswd.blur()
-  settingView1.add tfPasswd
+  settingView1.add tfPasswd# }}}
 
-  lblAgent = Ti.UI.createLabel()
+  lblAgent = Ti.UI.createLabel()# {{{
   lblAgent.text = 'User-Agent:'
   lblAgent.top = 120
   lblAgent.height = 20
@@ -88,9 +88,9 @@ exports.settingView = ()->
   lblAgent.color = 'white'
   lblAgent.addEventListener 'click', ()->
     pkrAgent.show()
-  settingView1.add lblAgent
+  settingView1.add lblAgent# }}}
 
-  #pkrAgent = Ti.UI.createPicker()
+  #pkrAgent = Ti.UI.createPicker()# {{{
   ##pkrAgent.top = 120
   ##pkrAgent.height = 20
   ##pkrAgent.left = 140
@@ -110,7 +110,7 @@ exports.settingView = ()->
   #  Ti.API.debug "row:"+e.row+", column:"+e.column+", row.custom_item:"+e.row.custom_item
   #pkrAgent.hide()
   ##settingView1.add pkrAgent
-  #win.add pkrAgent
+  #win.add pkrAgent# }}}
 
   return self
 

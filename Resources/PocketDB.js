@@ -125,10 +125,6 @@ exports.PocketDB = function(lists) {
   };
   self.initialize = function() {
     self.open();
-    self.db.execute('DROP TABLE IF EXISTS lists');
-    Ti.API.debug("drop table lists");
-    self.db.execute('DROP TABLE IF EXISTS htmls');
-    Ti.API.debug("drop table htmls");
     self.db.execute('CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT)');
     self.db.execute('CREATE TABLE IF NOT EXISTS htmls (item_id TEXT, html BLOB)');
     return self.close();

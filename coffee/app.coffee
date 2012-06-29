@@ -1,44 +1,53 @@
 win = Ti.UI.createWindow()
 win.title = 'window'
 win.backgroundColor = 'black'
+win.orientationModes = [# {{{
+  Titanium.UI.PORTRAIT
+  Titanium.UI.UPSIDE_PORTRAIT
+  Titanium.UI.LANDSCAPE_LEFT
+  Titanium.UI.LANDSCAPE_RIGHT
+  Titanium.UI.FACE_UP
+  Titanium.UI.FACE_DOWN
+  Titanium.UI.UNKNOWN
+]  # }}}
 
-WebView = require('webView').webView
+WebView = require('webView').webView# {{{
 webView = new WebView()
 webView.hide()
 webView.zIndex = 10
-win.add webView
+win.add webView# }}}
 
-SettingView = require('settingView').settingView
+SettingView = require('settingView').settingView# {{{
 settingView = new SettingView()
 settingView.hide()
 settingView.zIndex = 10
-win.add settingView
+win.add settingView# }}}
 
-BtnView = require('btnView').btnView
+BtnView = require('btnView').btnView# {{{
 btnView = new BtnView()
 btnView.zIndex = 20
-win.add btnView
+win.add btnView# }}}
 
-tblView = Ti.UI.createTableView()
+tblView = Ti.UI.createTableView()# {{{
 data = []
 tblView.data = data
 tblView.top = 50
 tblView.zIndex = 20
-tblView.addEventListener 'click',(e)->
+tblView.addEventListener 'click',(e)-># {{{
   Ti.API.debug "e.row.item_id="+e.row.item_id
   res = pocketDb.getSavedHtml e.row.item_id
   webView.html = ""
   webView.updateHtml res
   webView.zIndex = 30
-  webView.show()
+  webView.show()# }}}# }}}
   
-PocketDB = require('PocketDB').PocketDB
+PocketDB = require('PocketDB').PocketDB# {{{
 pocketDb = new PocketDB()
 pocketDb.getRowCount()
 pocketDb.deleteLists()
-pocketDb.getRowCount()
+pocketDb.getRowCount()# }}}
 
-updateLists = ()->
+updateLists = ()-># {{{
   tblView.setData []
   currentdata = []
   currentLists = pocketDb.getSavedLists()
@@ -53,6 +62,9 @@ updateLists = ()->
     Ti.API.debug "#{idx_i}.time_added:"+i.time_added
     idx_i += 1
     row = Ti.UI.createTableViewRow()
+    row.editable = true
+    row.addEventListener 'click', (e)->
+      Ti.API.debug "row clicked"
     label_title = Ti.UI.createLabel()
     label_title.text = i.title
     row.add label_title
@@ -71,9 +83,9 @@ updateLists = ()->
   #  label.text = elm.title
   #  row.add label
   #  currentdata.push row
-  #tblView.setData currentdata
+  #tblView.setData currentdata# }}}
 
-  #updateTimeLine = (timeline)->
+  #updateTimeLine = (timeline)-># {{{
   #  currentdata = []
   #  for key,elm of timeline.list
   #    #Ti.API.debug "key:"+key+",elm.title="+elm.title
@@ -84,9 +96,9 @@ updateLists = ()->
   #    currentdata.push row
   #  tblView.setData currentdata
   #  pocketDb.addLists timeline.list
-  #  pocketDb.getSavedLists()
+  #  pocketDb.getSavedLists()# }}}
 
-loadLits = ()->
+loadLists = ()-># {{{
   xhr = Ti.Network.createHTTPClient()
   orignal_url = "https://readitlaterlist.com/v2/"
   get_param = "get?"
@@ -116,10 +128,13 @@ loadLits = ()->
     pocketDb.addHtmls()
     updateLists()
     return
-  xhr.send()
+  xhr.send()# }}}
 
-loadLits()
+#loadLists()
+updateLists()
 
 win.add tblView
 
 win.open()
+
+#Ti.API.debug "Network:"+Ti.Network.online

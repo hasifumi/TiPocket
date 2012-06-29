@@ -3,15 +3,15 @@ exports.PocketDB = (lists)->
 
   self.dbName = 'pocketdb'
 
-  self.open = ()->
+  self.open = ()-># {{{
     self.db = Ti.Database.open self.dbName
-    return
+    return# }}}
 
-  self.close = ()->
+  self.close = ()-># {{{
     self.db.close()
-    return
+    return# }}}
 
-  self.addLists = (lists)->
+  self.addLists = (lists)-># {{{
     self.open()
     idx = 0
     for key,elm of lists
@@ -24,22 +24,22 @@ exports.PocketDB = (lists)->
         #Ti.API.debug "Add to DB"+elm.title
     self.close()
     #Ti.API.debug "idx:"+idx
-    return
+    return# }}}
 
-  self.getRowCount = ()->
+  self.getRowCount = ()-># {{{
     self.open()
     rows = self.db.execute 'SELECT * FROM lists'
     #Ti.API.debug "getRowCount rowsCount:"+rows.getRowCount()
     self.close()
-    return
+    return# }}}
 
-  self.selectList = (item_id)->
+  self.selectList = (item_id)-># {{{
     self.open()
     Ti.API.debug "selected :"+self.db.execute('SELECT (title) FROM lists where item_id = ?', item_id)
     self.close()
-    return
+    return# }}}
 
-  self.getSavedLists = ()->
+  self.getSavedLists = ()-># {{{
     Ti.API.debug "getSavedLists start"
     self.open()
     #rows = self.db.execute('SELECT * FROM lists')
@@ -60,16 +60,16 @@ exports.PocketDB = (lists)->
     rows.close()
     Ti.API.debug "res.length:"+res.length
     self.close()
-    return res
+    return res# }}}
 
-  self.deleteLists = ()->
+  self.deleteLists = ()-># {{{
     self.open()
     self.db.execute('DELETE FROM lists')
     self.close()
     Ti.API.debug "delete from lists"
-    return
+    return# }}}
 
-  self.getUrlSource = (item_id, url)->
+  self.getUrlSource = (item_id, url)-># {{{
     Ti.API.debug "self.getUrlSource start item_id:"+item_id+", url:"+url
     xhr = Ti.Network.createHTTPClient()
     #xhr.open 'GET', url
@@ -91,9 +91,9 @@ exports.PocketDB = (lists)->
       self.close()
       return
     xhr.send()
-    return
+    return# }}}
 
-  self.addHtmls = ()->
+  self.addHtmls = ()-># {{{
     self.open()
     rows = self.db.execute 'SELECT * FROM lists'
     Ti.API.debug "self.addHtmls select form lists Count:"+rows.getRowCount()
@@ -104,9 +104,9 @@ exports.PocketDB = (lists)->
         self.getUrlSource item_id, url
         rows.next()
     rows.close()
-    self.close()
+    self.close()# }}}
 
-  self.getSavedHtml = (item_id)->
+  self.getSavedHtml = (item_id)-># {{{
     if item_id is null
       return
     Ti.API.debug "getSavedHtmls start"
@@ -119,22 +119,22 @@ exports.PocketDB = (lists)->
         rows.next()
     rows.close()
     self.close()
-    return res
+    return res# }}}
 
-  self.initialize = ()->
+  self.initialize = ()-># {{{
     self.open()
-    self.db.execute 'DROP TABLE IF EXISTS lists'
-    Ti.API.debug "drop table lists"
-    self.db.execute 'DROP TABLE IF EXISTS htmls'
-    Ti.API.debug "drop table htmls"
+    #self.db.execute 'DROP TABLE IF EXISTS lists'
+    #Ti.API.debug "drop table lists"
+    #self.db.execute 'DROP TABLE IF EXISTS htmls'
+    #Ti.API.debug "drop table htmls"
     self.db.execute 'CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT)'
     self.db.execute 'CREATE TABLE IF NOT EXISTS htmls (item_id TEXT, html BLOB)'
-    self.close()
+    self.close()# }}}
 
   self.initialize()
   return self
 
-  #for key,elm of timeline.list
+  #for key,elm of timeline.list# {{{
   #  idx += 1
   #  #Ti.API.debug "key:"+key+",elm.title="+elm.title
   #  row = Ti.UI.createTableViewRow()
@@ -142,5 +142,5 @@ exports.PocketDB = (lists)->
   #  Ti.API.debug "elm.title="+elm.title
   #  label.text = elm.title
   #  row.add label
-  #  currentdata.push row
+  #  currentdata.push row# }}}
 
