@@ -36,6 +36,7 @@ exports.btnView = ()->
     Ti.API.debug "btnReload clicked"
     tblView.setData = []
     loadLists()
+    updateLists()
   self.add btnReload# }}}
 
   return self

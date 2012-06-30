@@ -35,7 +35,8 @@ exports.btnView = function() {
   btnReload.addEventListener('click', function() {
     Ti.API.debug("btnReload clicked");
     tblView.setData = [];
-    return loadLists();
+    loadLists();
+    return updateLists();
   });
   self.add(btnReload);
   return self;

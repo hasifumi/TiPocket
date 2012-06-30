@@ -31,6 +31,10 @@ tblView.addEventListener('click', function(e) {
   webView.zIndex = 30;
   return webView.show();
 });
+tblView.addEventListener('delete', function(e) {
+  Ti.API.debug("e.row.item_id=" + e.row.item_id);
+  pocketDb.readList(e.row.item_id);
+});
 PocketDB = require('PocketDB').PocketDB;
 pocketDb = new PocketDB();
 pocketDb.getRowCount();
@@ -49,22 +53,32 @@ updateLists = function() {
     Ti.API.debug(("" + idx_i + ".title:") + i.title);
     Ti.API.debug(("" + idx_i + ".time_updated:") + i.time_updated);
     Ti.API.debug(("" + idx_i + ".time_added:") + i.time_added);
-    idx_i += 1;
-    row = Ti.UI.createTableViewRow();
-    row.editable = true;
-    row.addEventListener('click', function(e) {
-      return Ti.API.debug("row clicked");
-    });
-    label_title = Ti.UI.createLabel();
-    label_title.text = i.title;
-    row.add(label_title);
-    row.item_id = i.item_id;
-    currentdata.push(row);
+    Ti.API.debug(("" + idx_i + ".read:") + i.read);
+    if (i.read === 'false') {
+      idx_i += 1;
+      row = Ti.UI.createTableViewRow();
+      row.editable = true;
+      row.addEventListener('click', function(e) {
+        return Ti.API.debug("row clicked");
+      });
+      label_title = Ti.UI.createLabel();
+      label_title.text = i.title;
+      row.add(label_title);
+      row.item_id = i.item_id;
+      currentdata.push(row);
+    }
   }
   tblView.setData(currentdata);
 };
 loadLists = function() {
-  var apikey, apikey_param, count, count_param, get_param, orignal_url, password, password_param, since, since_param, url, username, username_param, xhr;
+  var alertDia, apikey, apikey_param, count, count_param, get_param, orignal_url, password, password_param, since, since_param, url, username, username_param, xhr;
+  if (Ti.Network.online === false) {
+    alertDia = Ti.UI.createAlertDialog();
+    alertDia.title = "network error";
+    alertDia.message = "network error";
+    alertDia.show();
+    return;
+  }
   xhr = Ti.Network.createHTTPClient();
   orignal_url = "https://readitlaterlist.com/v2/";
   get_param = "get?";
@@ -79,7 +93,7 @@ loadLists = function() {
   Ti.API.debug("getString password:" + password);
   apikey = "14bg3L7ap8377O4d51Ta4d3k49A6Xd2f";
   since = "20120401";
-  count = "50";
+  count = "10";
   url = orignal_url + get_param + username_param + username + password_param + password + apikey_param + apikey + since_param + since + count_param + count;
   xhr.setRequestHeader('User-Agent', 'Mozilla/5.0 (Linux; U; Android 1.5; ja-jp; HT-03A Build/CDB72) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1');
   xhr.open('GET', url);

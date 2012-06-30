@@ -19,7 +19,7 @@ exports.PocketDB = (lists)->
       rows = self.db.execute 'SELECT * FROM lists where item_id = ?', elm.item_id
       #Ti.API.debug "Found: "+rows.getRowCount()
       if rows.getRowCount() is 0
-        res = self.db.execute 'INSERT INTO lists (item_id, title, url, time_updated, time_added, state) VALUES (?, ?, ?, ?, ?, ?)', elm.item_id, elm.title, elm.url, elm.time_updated, elm.time_added, elm.state
+        res = self.db.execute 'INSERT INTO lists (item_id, title, url, time_updated, time_added, state, read) VALUES (?, ?, ?, ?, ?, ?, ?)', elm.item_id, elm.title, elm.url, elm.time_updated, elm.time_added, elm.state, 'false'
         idx += 1
         #Ti.API.debug "Add to DB"+elm.title
     self.close()
@@ -55,6 +55,7 @@ exports.PocketDB = (lists)->
         res1.time_updated = rows.fieldByName('time_updated')
         res1.time_added   = rows.fieldByName('time_added')
         res1.state        = rows.fieldByName('state')
+        res1.read         = rows.fieldByName('read')
         res.push res1
         rows.next()
     rows.close()
@@ -69,15 +70,29 @@ exports.PocketDB = (lists)->
     Ti.API.debug "delete from lists"
     return# }}}
 
+  self.readList = (item_id)-># {{{
+    self.open()
+    self.db.execute("UPDATE lists set read = 'true' where item_id = ?", item_id)
+    self.close()
+    Ti.API.debug "read item_id:"+item_id
+    return# }}}
+
+  self.unreadList = (item_id)-># {{{
+    self.open()
+    self.db.execute("UPDATE lists set read = 'false' where item_id = ?", item_id)
+    self.close()
+    Ti.API.debug "unread item_id:"+item_id
+    return# }}}
+
   self.getUrlSource = (item_id, url)-># {{{
     Ti.API.debug "self.getUrlSource start item_id:"+item_id+", url:"+url
     xhr = Ti.Network.createHTTPClient()
     #xhr.open 'GET', url
     url_instapaper = "http://www.instapaper.com/m?u="+url
     xhr.open 'GET', url_instapaper
-    xhr.onerror = ()->
-      Ti.API.debug "getUrlSource onerror, url:"+url
-      return
+    #xhr.onerror = ()->
+    #  Ti.API.debug "getUrlSource onerror, url:"+url
+    #  return
     xhr.onload = ()->
       html = this.responseText
       #Ti.API.debug "self.getUrlSource html="+html
@@ -127,7 +142,7 @@ exports.PocketDB = (lists)->
     #Ti.API.debug "drop table lists"
     #self.db.execute 'DROP TABLE IF EXISTS htmls'
     #Ti.API.debug "drop table htmls"
-    self.db.execute 'CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT)'
+    self.db.execute 'CREATE TABLE IF NOT EXISTS lists (item_id TEXT, title TEXT, url TEXT, time_updated TEXT, time_added TEXT, state TEXT, read TEXT)'
     self.db.execute 'CREATE TABLE IF NOT EXISTS htmls (item_id TEXT, html BLOB)'
     self.close()# }}}
 
